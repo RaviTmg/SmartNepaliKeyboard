@@ -4,27 +4,34 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
+import android.widget.Toast;
 
 public class SimpleIme extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
     private KeyboardView kv;
-    private Keyboard keyboard;
+    private Keyboard qwerty_keyboard, sym_keyboard, sym_keyboard_shift;
 
     private boolean caps = false;
+
     @Override
     public View onCreateInputView() {
-        kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
-        keyboard = new Keyboard(this, R.xml.qwerty);
-        kv.setKeyboard(keyboard);
+        kv = (KeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
+
+        qwerty_keyboard = new Keyboard(this, R.xml.qwerty);
+        sym_keyboard = new Keyboard(this,R.xml.symbols);
+        sym_keyboard_shift = new Keyboard(this,R.xml.symbols_shift);
+        kv.setKeyboard(qwerty_keyboard);
         kv.setOnKeyboardActionListener(this);
         return kv;
     }
-    private void playClick(int keyCode){
-        AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
-        switch(keyCode){
+
+    private void playClick(int keyCode) {
+        AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
+        switch (keyCode) {
             case 32:
                 am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR);
                 break;
@@ -35,31 +42,44 @@ public class SimpleIme extends InputMethodService implements KeyboardView.OnKeyb
             case Keyboard.KEYCODE_DELETE:
                 am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE);
                 break;
-            default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
+            default:
+                am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
         }
     }
+
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
         InputConnection ic = getCurrentInputConnection();
         playClick(primaryCode);
-        switch(primaryCode){
-            case Keyboard.KEYCODE_DELETE :
+        switch (primaryCode) {
+            case Keyboard.KEYCODE_DELETE:
                 ic.deleteSurroundingText(1, 0);
                 break;
             case Keyboard.KEYCODE_SHIFT:
-                caps = !caps;
-                keyboard.setShifted(caps);
-                kv.invalidateAllKeys();
+                Keyboard keyboardShift = kv.getKeyboard();
+                if (keyboardShift == qwerty_keyboard){
+
+                    caps = !caps;
+                    qwerty_keyboard.setShifted(caps);
+                    kv.invalidateAllKeys();
+                } else  {
+                    kv.setKeyboard(keyboardShift == sym_keyboard?sym_keyboard_shift:sym_keyboard);
+                }
                 break;
             case Keyboard.KEYCODE_DONE:
+
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
                 break;
+            case -2:
+                Keyboard keyboard = kv.getKeyboard()== qwerty_keyboard?sym_keyboard:qwerty_keyboard;
+                kv.setKeyboard(keyboard);
+                break;
             default:
-                char code = (char)primaryCode;
-                if(Character.isLetter(code) && caps){
+                char code = (char) primaryCode;
+                if (Character.isLetter(code) && caps) {
                     code = Character.toUpperCase(code);
                 }
-                ic.commitText(String.valueOf(code),1);
+                ic.commitText(String.valueOf(code), 1);
         }
     }
 
