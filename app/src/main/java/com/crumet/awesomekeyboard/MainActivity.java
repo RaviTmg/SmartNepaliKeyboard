@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(MainActivity.this, isThisKeyboardSetAsDefaultIME(MainActivity.this)+"", Toast.LENGTH_SHORT).show();
 
-                    //startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
+                    startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
             }
         });
         findViewById(R.id.select_keyboard).setOnClickListener(new View.OnClickListener() {

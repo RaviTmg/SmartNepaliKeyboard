@@ -15,15 +15,16 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".SimpleIme"
+        <service
+            android:name=".SimpleIme"
             android:label="@string/simple_ime"
-            android:permission="android.permission.BIND_INPUT_METHOD"
-            >
-            <meta-data android:name="android.view.im" android:resource="@xml/method"/>
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
