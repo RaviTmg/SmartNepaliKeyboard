@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.inputmethodservice.Keyboard;
+import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 
 public class Customkeyboard extends Keyboard {
@@ -18,6 +19,7 @@ public class Customkeyboard extends Keyboard {
                          CharSequence characters, int columns, int horizontalPadding) {
         super(context, layoutTemplateResId, characters, columns, horizontalPadding);
     }
+
     @Override
     protected Key createKeyFromXml(Resources res, Row parent, int x, int y,
                                    XmlResourceParser parser) {
@@ -62,6 +64,7 @@ public class Customkeyboard extends Keyboard {
                 mEnterKey.label = res.getText(R.string.label_next_key);
                 break;
             case EditorInfo.IME_ACTION_SEARCH:
+                Log.d("IME","search");
                 mEnterKey.icon = res.getDrawable(R.drawable.sym_keyboard_search);
                 mEnterKey.label = null;
                 break;
@@ -70,6 +73,7 @@ public class Customkeyboard extends Keyboard {
                 mEnterKey.icon = null;
                 mEnterKey.label = res.getText(R.string.label_send_key);
                 break;
+
             default:
                 mEnterKey.icon = res.getDrawable(R.drawable.sym_keyboard_return);
                 mEnterKey.label = null;

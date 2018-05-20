@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String PACKAGE_NAME;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,15 +27,20 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        PACKAGE_NAME = getApplicationContext().getPackageName();
+
+    if(!isInputMethodEnabled(this)){
+        if (!isThisKeyboardSetAsDefaultIME(this)){
+
+        }
+    }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 Toast.makeText(MainActivity.this, isThisKeyboardSetAsDefaultIME(MainActivity.this)+"", Toast.LENGTH_SHORT).show();
 
-                    startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
+               //     startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
             }
         });
         findViewById(R.id.select_keyboard).setOnClickListener(new View.OnClickListener() {
@@ -43,18 +50,21 @@ public class MainActivity extends AppCompatActivity {
                 imeManager.showInputMethodPicker();
             }
         });
+
+
     }
-    public static boolean isThisKeyboardSetAsDefaultIME(Context context) {
+
+    public static boolean isInputMethodEnabled(Context context) {
         final String defaultIME = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ENABLED_INPUT_METHODS);
         if (TextUtils.isEmpty(defaultIME))
             return false;
         ComponentName defaultInputMethod = ComponentName.unflattenFromString(defaultIME);
 //        return defaultInputMethod.getPackageName().equals(myPackageName);
-        return defaultIME.contains("com.crumet.awesomekeyboard");
+        return defaultIME.contains(PACKAGE_NAME);
 
     }
-    public boolean isInputMethodEnabled() {
-        String id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+    public boolean isThisKeyboardSetAsDefaultIME(Context context) {
+        String id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
 
         ComponentName defaultInputMethod = ComponentName.unflattenFromString(id);
 

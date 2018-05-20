@@ -1,8 +1,6 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
     android:keyWidth="10%p"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
-    android:keyHeight="@dimen/key_height"
+    android:keyHeight="8%p"
     >
     <Row>
         <Key android:codes="49" android:keyLabel="1" android:keyEdgeFlags="left"/>
@@ -47,21 +45,19 @@
             android:isRepeatable="true"/>
     </Row>
 
-    <Row  android:rowEdgeFlags="bottom">
-        <Key android:codes="-3" android:keyIcon="@drawable/sym_keyboard_done"
-            android:keyWidth="15%p" android:keyEdgeFlags="left" />
-        <Key android:codes="-2" android:keyLabel="ABC" android:keyWidth="10%p" />
-        <!--
-            android:codes: -101 is not a framework-defined key code but a key code that is
-            privately defined in com.example.android.softkeyboard.LatinKeyboardView.
-        -->
-        <Key android:codes="-101" android:keyIcon="@drawable/sym_keyboard_language_switch"
-            android:keyWidth="10%p" />
-        <Key android:codes="32" android:keyIcon="@drawable/sym_keyboard_space" android:keyWidth="30%p"
-            android:isRepeatable="true"/>
-        <Key android:codes="44" android:keyLabel="," android:keyWidth="15%p" />
-        <Key android:codes="10" android:keyIcon="@drawable/sym_keyboard_return"
-            android:keyWidth="20%p" android:keyEdgeFlags="right"
-            />
+    <Row android:rowEdgeFlags="bottom">
+        <Key android:codes="-2" android:keyLabel="ABC"
+            android:keyWidth="15%p" android:isModifier="true"
+            android:isSticky="true" android:keyEdgeFlags="left"/>
+        <Key android:codes="44" android:keyLabel="," android:keyWidth="10%p"/>
+
+        <Key android:codes="-101" android:keyIcon="@drawable/sym_keyboard_emoji"
+            android:keyWidth="10%p"/>
+        <Key android:codes="32" android:keyIcon="@drawable/sym_keyboard_space"
+            android:keyWidth="35%p" android:isRepeatable="true"/>
+        <Key android:codes="46" android:keyLabel="." android:isRepeatable="true"
+            android:keyWidth="10%p"/>
+        <Key android:codes="10"
+            android:keyWidth="20%p" android:keyEdgeFlags="right"/>
     </Row>
 </Keyboard>

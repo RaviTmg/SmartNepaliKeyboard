@@ -53,10 +53,10 @@ public class CustomKeyboardView extends KeyboardView {
         super.onDraw(canvas);
         Paint paint = new Paint();
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(20);
+        paint.setTextSize(18);
         paint.setColor(Color.LTGRAY);
-        int x = 30;
-        int y = 40;
+        int x = 20;
+        int y = 30;
         List<Key> keys = getKeyboard().getKeys();
         for (Key key : keys) {
 

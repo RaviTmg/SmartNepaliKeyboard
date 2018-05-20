@@ -22,12 +22,13 @@ import android.view.textservice.SpellCheckerSession;
 import android.view.textservice.SuggestionsInfo;
 import android.view.textservice.TextInfo;
 import android.view.textservice.TextServicesManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleIme extends InputMethodService
-        implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener  {
+        implements KeyboardView.OnKeyboardActionListener, SpellCheckerSession.SpellCheckerSessionListener {
 
     private InputMethodManager mInputMethodManager;
 
@@ -62,6 +63,8 @@ public class SimpleIme extends InputMethodService
         final TextServicesManager tsm = (TextServicesManager) getSystemService(
                 Context.TEXT_SERVICES_MANAGER_SERVICE);
         mScs = tsm.newSpellCheckerSession(null, null, this, true);
+
+
     }
 
     /**
@@ -87,6 +90,7 @@ public class SimpleIme extends InputMethodService
         mInputView = (CustomKeyboardView) getLayoutInflater().inflate(R.layout.keyboard, null);
         mInputView.setKeyboard(mQwertyKeyboard);
         mInputView.setOnKeyboardActionListener(this);
+        mInputView.setPreviewEnabled(false);
         return mInputView;
     }
 
@@ -100,6 +104,7 @@ public class SimpleIme extends InputMethodService
         mCandidateView.setService(this);
         return mCandidateView;
     }
+
     private void playClick(int keyCode) {
         AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
         switch (keyCode) {
@@ -232,6 +237,7 @@ public class SimpleIme extends InputMethodService
         mInputView.closing();
 
     }
+
     /**
      * Deal with the editor reporting movement of its cursor.
      */
@@ -254,6 +260,7 @@ public class SimpleIme extends InputMethodService
             }
         }
     }
+
     /**
      * This tells us about completions that the editor has determined based
      * on the current text in it.  We want to use this in fullscreen mode
@@ -277,6 +284,7 @@ public class SimpleIme extends InputMethodService
             setSuggestions(stringList, true, true);
         }
     }
+
     /**
      * Use this to monitor key events being delivered to the application.
      * We get first crack at them, and can either resume them or let them
@@ -346,6 +354,7 @@ public class SimpleIme extends InputMethodService
         return super.onKeyDown(keyCode, event);
 
     }
+
     /**
      * Helper function to commit any text being composed in to the editor.
      */
@@ -372,6 +381,7 @@ public class SimpleIme extends InputMethodService
             mInputView.setShifted(mCapsLock || caps != 0);
         }
     }
+
     /**
      * Helper to determine if a given character code is alphabetic.
      */
@@ -382,6 +392,7 @@ public class SimpleIme extends InputMethodService
             return false;
         }
     }
+
     /**
      * Helper to send a key down / key up pair to the current editor.
      */
@@ -409,6 +420,7 @@ public class SimpleIme extends InputMethodService
                 break;
         }
     }
+
     public void onKey(int primaryCode, int[] keyCodes) {
         Log.d("Test", "KEYCODE: " + primaryCode);
         if (isWordSeparator(primaryCode)) {
@@ -442,6 +454,7 @@ public class SimpleIme extends InputMethodService
             handleCharacter(primaryCode, keyCodes);
         }
     }
+
     public void onText(CharSequence text) {
         InputConnection ic = getCurrentInputConnection();
         if (ic == null) return;
@@ -453,6 +466,7 @@ public class SimpleIme extends InputMethodService
         ic.endBatchEdit();
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
+
     /**
      * Update the list of available candidates from the current composing
      * text.  This will need to be filled in by however you are determining
@@ -471,6 +485,7 @@ public class SimpleIme extends InputMethodService
             }
         }
     }
+
     public void setSuggestions(List<String> suggestions, boolean completions,
                                boolean typedWordValid) {
         if (suggestions != null && suggestions.size() > 0) {
@@ -483,6 +498,7 @@ public class SimpleIme extends InputMethodService
             mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
         }
     }
+
     private void handleBackspace() {
         final int length = mComposing.length();
         if (length > 1) {
@@ -584,6 +600,7 @@ public class SimpleIme extends InputMethodService
 
         }
     }
+
     public void swipeRight() {
         Log.d("SoftKeyboard", "Swipe right");
         if (mCompletionOn || mPredictionOn) {
@@ -604,13 +621,36 @@ public class SimpleIme extends InputMethodService
     public void swipeUp() {
     }
 
-    public void onPress(int primaryCode) {
+    public void onPress(int pc) {
 
+        if (previewDisabledKeys(pc)) {
+
+        } else {
+            mInputView.setPreviewEnabled(true);
+        }
     }
 
-    public void onRelease(int primaryCode) {
 
+
+    public void onRelease(int pc) {
+        if (previewDisabledKeys(pc)) {
+            mInputView.setPreviewEnabled(false);
+        }
     }
+    private boolean previewDisabledKeys(int pc) {
+        return pc == 32 ||
+                pc == -101 ||
+                pc == 10 ||
+                pc == -5 ||
+                pc == -1 ||
+                pc == -2;
+    }
+    @Override
+    public boolean onKeyMultiple(int keyCode, int count, KeyEvent event) {
+
+        return super.onKeyMultiple(keyCode, count, event);
+    }
+
     /**
      * http://www.tutorialspoint.com/android/android_spelling_checker.htm
      *

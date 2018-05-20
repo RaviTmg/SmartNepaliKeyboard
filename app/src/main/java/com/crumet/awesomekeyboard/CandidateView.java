@@ -1,5 +1,6 @@
 package com.crumet.awesomekeyboard;
 
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.content.Context;
 import android.content.res.Resources;
@@ -151,6 +152,8 @@ public class CandidateView extends View {
                 getBackground().getPadding(mBgPadding);
             }
         }
+        DisplayMetrics metrics = this.getResources().getDisplayMetrics();
+        int width = metrics.widthPixels;
         int x = 0;
         final int count = mSuggestions.size();
         final int height = getHeight();
