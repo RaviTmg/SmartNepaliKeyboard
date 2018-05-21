@@ -1,0 +1,42 @@
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="14.28%p"
+    android:keyHeight="8%p"
+
+    >
+    <Row>
+        <Key android:codes="128512" android:keyLabel="😀" android:keyOutputText="😀" android:keyEdgeFlags="left"  />
+        <Key android:codes="128513" android:keyLabel="😁" android:keyOutputText="😁"/>
+        <Key android:codes="128514" android:keyLabel="😂" android:keyOutputText="😂"/>
+        <Key android:codes="128515" android:keyLabel="😃" android:keyOutputText="😃"/>
+        <Key android:codes="128516" android:keyLabel="😄" android:keyOutputText="😄"/>
+        <Key android:codes="128517" android:keyLabel="😅" android:keyOutputText="😅"/>
+        <Key android:codes="128518" android:keyLabel="😆" android:keyOutputText="😆" android:keyEdgeFlags="right"/>
+    </Row>
+    <Row>
+        <Key android:codes="128512" android:keyLabel="😀" android:keyOutputText="😀" android:keyEdgeFlags="left"  />
+        <Key android:codes="128513" android:keyLabel="😁" android:keyOutputText="😁"/>
+        <Key android:codes="128514" android:keyLabel="😂" android:keyOutputText="😂"/>
+        <Key android:codes="128515" android:keyLabel="😃" android:keyOutputText="😃"/>
+        <Key android:codes="128516" android:keyLabel="😄" android:keyOutputText="😄"/>
+        <Key android:codes="128517" android:keyLabel="😅" android:keyOutputText="😅"/>
+        <Key android:codes="128518" android:keyLabel="😆" android:keyOutputText="😆" android:keyEdgeFlags="right"/>
+    </Row>
+    <Row>
+        <Key android:codes="128512" android:keyLabel="😀" android:keyOutputText="😀" android:keyEdgeFlags="left"  />
+        <Key android:codes="128513" android:keyLabel="😁" android:keyOutputText="😁"/>
+        <Key android:codes="128514" android:keyLabel="😂" android:keyOutputText="😂"/>
+        <Key android:codes="128515" android:keyLabel="😃" android:keyOutputText="😃"/>
+        <Key android:codes="128516" android:keyLabel="😄" android:keyOutputText="😄"/>
+        <Key android:codes="128517" android:keyLabel="😅" android:keyOutputText="😅"/>
+        <Key android:codes="128518" android:keyLabel="😆" android:keyOutputText="😆" android:keyEdgeFlags="right"/>
+    </Row>
+    <Row>
+        <Key android:codes="128512" android:keyLabel="😀" android:keyOutputText="😀" android:keyEdgeFlags="left"  />
+        <Key android:codes="128513" android:keyLabel="😁" android:keyOutputText="😁"/>
+        <Key android:codes="128514" android:keyLabel="😂" android:keyOutputText="😂"/>
+        <Key android:codes="128515" android:keyLabel="😃" android:keyOutputText="😃"/>
+        <Key android:codes="128516" android:keyLabel="😄" android:keyOutputText="😄"/>
+        <Key android:codes="128517" android:keyLabel="😅" android:keyOutputText="😅"/>
+        <Key android:codes="128518" android:keyLabel="😆" android:keyOutputText="😆" android:keyEdgeFlags="right"/>
+    </Row>
+</Keyboard>

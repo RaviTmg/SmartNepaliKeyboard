@@ -20,6 +20,4 @@
     <string name="select_language">Select input languages</string>
     <string name="general_category">General</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

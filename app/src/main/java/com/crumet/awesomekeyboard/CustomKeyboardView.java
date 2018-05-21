@@ -17,8 +17,8 @@ import java.util.List;
 public class CustomKeyboardView extends KeyboardView {
 
     static final int KEYCODE_OPTIONS = -100;
-    // TODO: Move this into android.inputmethodservice.Keyboard
-    static final int KEYCODE_LANGUAGE_SWITCH = -101;
+    static final int KEYCODE_LANGUAGE_SWITCH = -102;
+    static final int KEYCODE_EMOJI_SWITCH = -101;
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
