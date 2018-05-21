@@ -30,4 +30,30 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
+    <LinearLayout
+        android:visibility="invisible"
+        android:id="@+id/configure_keyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_margin="16dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:text="enable sajilo keyboard"
+            android:id="@+id/btn_enable_keyboard"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:text="switch to sajilo keyboard"
+            android:id="@+id/btn_switch_keyboard"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>

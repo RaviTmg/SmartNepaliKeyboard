@@ -9,14 +9,35 @@ import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 
 public class Customkeyboard extends Keyboard {
+
+    Context mContext;
+
     private Key mEnterKey;
     private Key mSpaceKey;
+    private Key mShiftKey;
+
+    private Drawable mShiftLockIcon;
+    private Drawable mShiftLockPreviewIcon;
+    private Drawable mOldShiftIcon;
+
     public Customkeyboard(Context context, int xmlLayoutResId) {
         super(context, xmlLayoutResId);
     }
 
-    public Customkeyboard(Context context, int layoutTemplateResId,
-                         CharSequence characters, int columns, int horizontalPadding) {
+    public Customkeyboard(Context context, int xmlLayoutResId, int modeId, int width, int height) {
+        super(context, xmlLayoutResId, modeId, width, height);
+        mContext = context;
+        final Resources res = context.getResources();
+        mShiftLockIcon = res.getDrawable(R.drawable.sym_keyboard_shift_locked);
+        //mShiftLockPreviewIcon = res.getDrawable(R.drawable.sym_keyboard_feedback_shift_locked);
+
+    }
+
+    public Customkeyboard(Context context, int xmlLayoutResId, int modeId) {
+        super(context, xmlLayoutResId, modeId);
+    }
+
+    public Customkeyboard(Context context, int layoutTemplateResId, CharSequence characters, int columns, int horizontalPadding) {
         super(context, layoutTemplateResId, characters, columns, horizontalPadding);
     }
 
@@ -24,11 +45,21 @@ public class Customkeyboard extends Keyboard {
     protected Key createKeyFromXml(Resources res, Row parent, int x, int y,
                                    XmlResourceParser parser) {
         Key key = new CustomKey(res, parent, x, y, parser);
-        if (key.codes[0] == 10) {
-            mEnterKey = key;
-        } else if (key.codes[0] == ' ') {
-            mSpaceKey = key;
+
+        switch (key.codes[0]){
+            case 10:
+                mEnterKey = key;
+                break;
+            case ' ':
+                mSpaceKey = key;
+                break;
+            case -1:
+                mShiftKey = key;
+
         }
+
+
+
         /*else if (key.codes[0] == Keyboard.KEYCODE_MODE_CHANGE) {
             mModeChangeKey = key;
             mSavedModeChangeKey = new LatinKey(res, parent, x, y, parser);
@@ -38,6 +69,7 @@ public class Customkeyboard extends Keyboard {
         }*/
         return key;
     }
+
     void setSpaceIcon(final Drawable icon) {
         if (mSpaceKey != null) {
             mSpaceKey.icon = icon;

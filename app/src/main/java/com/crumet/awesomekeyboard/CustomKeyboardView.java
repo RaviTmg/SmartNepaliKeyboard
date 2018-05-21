@@ -49,6 +49,11 @@ public class CustomKeyboardView extends KeyboardView {
     }
 
     @Override
+    public boolean setShifted(boolean shifted) {
+        return super.setShifted(shifted);
+    }
+
+    @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint paint = new Paint();

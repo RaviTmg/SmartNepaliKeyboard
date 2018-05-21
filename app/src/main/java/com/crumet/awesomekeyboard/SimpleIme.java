@@ -201,7 +201,6 @@ public class SimpleIme extends InputMethodService
         }
         // Update the label on the enter key, depending on what the application
         // says it will do.
-        /*setCandidatesViewShown(true);*/
         mCurKeyboard.setImeOptions(getResources(), attribute.imeOptions);
     }
 
@@ -535,7 +534,15 @@ public class SimpleIme extends InputMethodService
             mSymbolsKeyboard.setShifted(false);
         }
     }
-
+    private void checkToggleCapsLock() {
+        long now = System.currentTimeMillis();
+        if (mLastShiftTime + 800 > now) {
+            mCapsLock = !mCapsLock;
+            mLastShiftTime = 0;
+        } else {
+            mLastShiftTime = now;
+        }
+    }
     private void handleCharacter(int primaryCode, int[] keyCodes) {
         if (isInputViewShown()) {
             if (mInputView.isShifted()) {
@@ -559,15 +566,7 @@ public class SimpleIme extends InputMethodService
         mInputView.closing();
     }
 
-    private void checkToggleCapsLock() {
-        long now = System.currentTimeMillis();
-        if (mLastShiftTime + 800 > now) {
-            mCapsLock = !mCapsLock;
-            mLastShiftTime = 0;
-        } else {
-            mLastShiftTime = now;
-        }
-    }
+
 
     private String getWordSeparators() {
         return mWordSeparators;
@@ -622,7 +621,6 @@ public class SimpleIme extends InputMethodService
     }
 
     public void onPress(int pc) {
-
         if (previewDisabledKeys(pc)) {
 
         } else {

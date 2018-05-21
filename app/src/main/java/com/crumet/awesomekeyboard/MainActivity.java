@@ -14,11 +14,17 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     public static String PACKAGE_NAME;
+
+    LinearLayout confKeyboard;
+    Button enableKeyboard;
+    Button switchKeyboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,50 +34,71 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         PACKAGE_NAME = getApplicationContext().getPackageName();
+        confKeyboard = findViewById(R.id.configure_keyboard_view);
+        enableKeyboard = findViewById(R.id.btn_enable_keyboard);
+        switchKeyboard = findViewById(R.id.btn_switch_keyboard);
 
-    if(!isInputMethodEnabled(this)){
-        if (!isThisKeyboardSetAsDefaultIME(this)){
+        PACKAGE_NAME = getApplicationContext().getPackageName();
 
+        if (!isInputMethodEnabled(this) ||
+                !isThisKeyboardSetAsDefaultIME(this)) {
+            confKeyboard.setVisibility(View.VISIBLE);
+        } else {
+            confKeyboard.setVisibility(View.INVISIBLE);
         }
-    }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, isThisKeyboardSetAsDefaultIME(MainActivity.this)+"", Toast.LENGTH_SHORT).show();
 
-               //     startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
+        
+        enableKeyboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
+                if (isInputMethodEnabled(MainActivity.this)) {
+                    enableKeyboard.setVisibility(View.INVISIBLE);
+                }
             }
         });
-        findViewById(R.id.select_keyboard).setOnClickListener(new View.OnClickListener() {
+
+        switchKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 InputMethodManager imeManager = (InputMethodManager) getApplicationContext().getSystemService(INPUT_METHOD_SERVICE);
                 imeManager.showInputMethodPicker();
+                onResume();
+                if (isThisKeyboardSetAsDefaultIME(MainActivity.this)){
+                    switchKeyboard.setVisibility(View.INVISIBLE);
+                    confKeyboard.setVisibility(View.INVISIBLE);
+                }
             }
         });
 
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (isInputMethodEnabled(MainActivity.this)) {
+            enableKeyboard.setVisibility(View.INVISIBLE);
+        }
+        if(isThisKeyboardSetAsDefaultIME(MainActivity.this)){
+            switchKeyboard.setVisibility(View.INVISIBLE);
+        }
+    }
+
     public static boolean isInputMethodEnabled(Context context) {
         final String defaultIME = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ENABLED_INPUT_METHODS);
-        if (TextUtils.isEmpty(defaultIME))
-            return false;
-        ComponentName defaultInputMethod = ComponentName.unflattenFromString(defaultIME);
-//        return defaultInputMethod.getPackageName().equals(myPackageName);
-        return defaultIME.contains(PACKAGE_NAME);
+        return !TextUtils.isEmpty(defaultIME) && defaultIME.contains(PACKAGE_NAME);
 
     }
+
     public boolean isThisKeyboardSetAsDefaultIME(Context context) {
         String id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
-
         ComponentName defaultInputMethod = ComponentName.unflattenFromString(id);
-
         ComponentName myInputMethod = new ComponentName(this, SimpleIme.class);
-
         return myInputMethod.equals(defaultInputMethod);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
