@@ -60,7 +60,6 @@ public class SimpleIme extends InputMethodService
                 Context.TEXT_SERVICES_MANAGER_SERVICE);
         mScs = tsm.newSpellCheckerSession(null, null, this, true);
 
-
     }
 
     /**
@@ -399,6 +398,7 @@ public class SimpleIme extends InputMethodService
         } else if(primaryCode == CustomKeyboardView.KEYCODE_EMOJI_SWITCH){
             //TODO: insert emoji keyboard
             mInputView.setKeyboard(mEmojikeyboard);
+
         }else
             {
             handleCharacter(primaryCode, keyCodes);
@@ -652,40 +652,5 @@ public class SimpleIme extends InputMethodService
         Log.d("SoftKeyboard", "SUGGESTIONS: " + sb.toString());
         setSuggestions(sb, true, true);
     }
-     /*@Override
-        public void onKey(int primaryCode, int[] keyCodes) {
-         InputConnection ic = getCurrentInputConnection();
-         playClick(primaryCode);
-         switch (primaryCode) {
-             case Keyboard.KEYCODE_DELETE:
-                 ic.deleteSurroundingText(1, 0);
-                 break;
-             case Keyboard.KEYCODE_SHIFT:
-                 Keyboard keyboardShift = kv.getKeyboard();
-                 if (keyboardShift == mQwertyKeyboard) {
-
-                     mCapsLock = !mCapsLock;
-                     mQwertyKeyboard.setShifted(mCapsLock);
-                     kv.invalidateAllKeys();
-                 } else {
-                     kv.setKeyboard(keyboardShift == mSymbolsKeyboard ? mSymbolsKeyboardShift : mSymbolsKeyboard);
-                 }
-                 break;
-             case Keyboard.KEYCODE_DONE:
-
-                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
-                 break;
-             case -2:
-                 Keyboard keyboard = kv.getKeyboard() == mQwertyKeyboard ? mSymbolsKeyboard : mQwertyKeyboard;
-                 kv.setKeyboard(keyboard);
-                 break;
-             default:
-                 char code = (char) primaryCode;
-                 if (Character.isLetter(code) && mCapsLock) {
-                     code = Character.toUpperCase(code);
-                 }
-                 ic.commitText(String.valueOf(code), 1);
-         }
-     }*/
 
 }
